@@ -19,4 +19,19 @@ suite("Server", () => {
     assert.strictEqual(res.data.status, "ok");
     assert.include(res.data.message, "running");
   });
+
+  test("middleware plugins are registered", () => {
+    assert.exists(server.registrations);
+  });
+
+  test("views are configured with Handlebars", () => {
+    assert.isFunction(server.getViewsManager);
+    const manager = server.getViewsManager();
+    assert.exists(manager);
+    assert.isObject(manager);
+  });
+
+  test("server has validator configured", () => {
+    assert.isFunction(server.validator);
+  });
 });
