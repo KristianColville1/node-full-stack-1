@@ -1,5 +1,7 @@
 import "dotenv/config";
 import Hapi from "@hapi/hapi";
+import Joi from "joi";
+import { registerMiddleware } from "./core/middleware/register.js";
 
 const host = process.env.HOST ?? "0.0.0.0";
 const port = process.env.PORT ?? 3000;
@@ -9,6 +11,9 @@ export const server = Hapi.server({
   port: Number(port),
 });
 
+await registerMiddleware(server);
+server.validator(Joi);
+  
 server.route({
   method: "GET",
   path: "/",
@@ -17,6 +22,7 @@ server.route({
 
 export async function start(): Promise<void> {
   await server.start();
+
   console.log("Server running on %s", server.info.uri);
 }
 
