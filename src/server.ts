@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 import Handlebars from "handlebars";
 import { registerMiddleware } from "@/core/middleware/register.js";
 import { initStores } from "@/core/data/db.js";
+import { routes as frontendRoutes } from "@/app/routes/routes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -48,12 +49,7 @@ server.validator(Joi);
 /**
  * Register the routes
  */
-server.route({
-  method: "GET",
-  path: "/",
-  handler: () => ({ status: "ok", message: "Server is running" }),
-});
-
+server.route(frontendRoutes as any);
 
 /**
  * Register the views
