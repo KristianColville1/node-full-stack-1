@@ -1,7 +1,7 @@
 import { after, before, suite, test } from "mocha";
 import { assert } from "chai";
 import axios from "axios";
-import { server, start } from "../src/server.js";
+import { server, start } from "@/server.js";
 
 suite("Server", () => {
   before(async () => {

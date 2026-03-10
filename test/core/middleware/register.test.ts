@@ -1,6 +1,6 @@
 import { after, before, suite, test } from "mocha";
 import { assert } from "chai";
-import { server, start } from "../../../src/server.js";
+import { server, start } from "@/server.js";
 
 const EXPECTED_PLUGINS = ["@hapi/inert", "@hapi/vision", "@hapi/cookie"] as const;
 

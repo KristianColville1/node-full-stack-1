@@ -1,43 +1,33 @@
 import { suite, test } from "mocha";
 import { assert } from "chai";
-import { DataSource } from "typeorm";
-import { db } from "../../../src/core/data/db.js";
+import { db, initStores } from "@/core/data/db.js";
 
 suite("Core - db", () => {
   test("db module exports an object", () => {
     assert.isObject(db);
   });
 
-  test("db has a dataSource", () => {
-    assert.property(db, "dataSource");
-    assert.instanceOf(db.dataSource, DataSource);
+  test("db has userStore", () => {
+    assert.property(db, "userStore");
   });
 
-  test("db.dataSource has expected config", () => {
-    const opts = db.dataSource.options;
-    assert.strictEqual(opts.type, "sqlite");
-    assert.strictEqual(opts.database, ":memory:");
-    assert.isArray(opts.entities);
-    assert.lengthOf(opts.entities, 0);
+  test("initStores() assigns memory store by default", () => {
+    initStores("memory");
+    assert.exists(db.userStore);
+    assert.isFunction(db.userStore.addUser);
+    assert.isFunction(db.userStore.getUserByEmail);
   });
 
-  test("db has an initialiser", () => {
-    assert.property(db, "init");
-    assert.isFunction(db.init);
+  test("userStore.addUser and getUserByEmail work", async () => {
+    initStores("memory");
+    await db.userStore.addUser({ email: "a@b.com", password: "secret" });
+    const user = await db.userStore.getUserByEmail("a@b.com");
+    assert.exists(user);
+    assert.strictEqual(user?.email, "a@b.com");
+    assert.strictEqual(user?.password, "secret");
   });
 
-  test("db.init() resolves without error", async () => {
-    await db.init();
-  });
-
-  test("db.init() initializes dataSource", async () => {
-    await db.init();
-    assert.isTrue(db.dataSource.isInitialized);
-  });
-
-  test("db.init() is idempotent (second call does not throw)", async () => {
-    await db.init();
-    await db.init();
-    assert.isTrue(db.dataSource.isInitialized);
+  test("initStores('json') throws (not yet implemented)", () => {
+    assert.throws(() => initStores("json"), "not yet implemented");
   });
 });

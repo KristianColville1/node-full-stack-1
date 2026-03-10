@@ -9,3 +9,6 @@ Locations can be categorised (e.g. best espresso, places to study) and managed w
 - **Back end:** Node.js, Hapi, MongoDB (Mongoose)
 - **Front end:** Handlebars
 - **API:** REST, OpenAPI/Swagger, JWT auth
+
+## readme notes for filling out
+using facade pattern for db levels

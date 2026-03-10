@@ -5,7 +5,8 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 import Handlebars from "handlebars";
-import { registerMiddleware } from "./core/middleware/register.js";
+import { registerMiddleware } from "@/core/middleware/register.js";
+import { initStores } from "@/core/data/db.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -73,6 +74,7 @@ server.views({
  * Start the server
  */
 export async function start(): Promise<void> {
+  initStores();
   console.log("Server running on %s", server.info.uri);
   await server.start();
 }
