@@ -1,5 +1,10 @@
 {
   "file": "/home/kristian/Documents/GitHub/node-full-stack-1/data/cafes.json",
   "cafes": [
+    {
+      "name": "Json Cafe",
+      "category": "Test",
+      "_id": "bd384db4-32fa-45ca-a6d7-c7d17930f71a"
+    }
   ]
 }

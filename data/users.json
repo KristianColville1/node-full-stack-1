@@ -42,6 +42,11 @@
       "email": "kristiancolville96@gmail.com",
       "password": "8Y+fH=g!;?Br=8+",
       "_id": "a8f24afb-1e34-48dd-bc12-ef38fab72656"
+    },
+    {
+      "email": "json@test.com",
+      "password": "secret",
+      "_id": "0b79910c-38eb-4999-a526-229103a21672"
     }
   ]
 }

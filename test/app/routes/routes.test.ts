@@ -1,6 +1,6 @@
 import { suite, test } from "mocha";
 import { assert } from "chai";
-import { routes } from "@/app/routes/routes.js";
+import { routes } from "../../../src/app/routes/routes.js";
 
 suite("Routes", () => {
   test("routes array has entries", () => {
