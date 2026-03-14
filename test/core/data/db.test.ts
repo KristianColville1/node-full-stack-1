@@ -18,6 +18,7 @@ suite("Core - db", () => {
     assert.exists(db.cafeStore);
     assert.isFunction(db.userStore.addUser);
     assert.isFunction(db.userStore.getUserByEmail);
+    assert.isFunction(db.userStore.getUserById);
     assert.isFunction(db.cafeStore.addCafe);
     assert.isFunction(db.cafeStore.getAllCafes);
     assert.isFunction(db.cafeStore.getByCategory);
@@ -32,8 +33,34 @@ suite("Core - db", () => {
     assert.strictEqual(user?.password, "secret");
   });
 
-  test("initStores('json') throws (not yet implemented)", () => {
-    assert.throws(() => initStores("json"), "not yet implemented");
+  test("initStores('json') assigns json stores", () => {
+    initStores("json");
+    assert.exists(db.userStore);
+    assert.exists(db.cafeStore);
+    assert.isFunction(db.userStore.addUser);
+    assert.isFunction(db.userStore.getUserByEmail);
+    assert.isFunction(db.userStore.getUserById);
+    assert.isFunction(db.cafeStore.addCafe);
+    assert.isFunction(db.cafeStore.getAllCafes);
+    assert.isFunction(db.cafeStore.getByCategory);
+  });
+
+  test("json userStore addUser and getUserByEmail work", async () => {
+    initStores("json");
+    await db.userStore.addUser({ email: "json@test.com", password: "secret" });
+    const user = await db.userStore.getUserByEmail("json@test.com");
+    assert.exists(user);
+    assert.strictEqual(user?.email, "json@test.com");
+  });
+
+  test("json cafeStore addCafe and getAllCafes work", async () => {
+    initStores("json");
+    await db.cafeStore.addCafe({ name: "Json Cafe", category: "Test" });
+    const all = await db.cafeStore.getAllCafes();
+    assert.isAtLeast(all.length, 1);
+    const added = all.find((c) => c.name === "Json Cafe");
+    assert.exists(added);
+    assert.strictEqual(added?.category, "Test");
   });
 
   test("cafeStore CRUD and getByCategory work", async () => {

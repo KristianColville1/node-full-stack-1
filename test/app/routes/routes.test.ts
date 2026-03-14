@@ -12,27 +12,32 @@ suite("Routes", () => {
     routes.forEach((route) => {
       assert.property(route, "method");
       assert.property(route, "path");
-      assert.property(route, "handler");
-      assert.isFunction(route.handler);
+      const handler = route.handler ?? (route as any).config?.handler;
+      assert.exists(handler, `route ${route.method} ${route.path} has no handler`);
+      // Handler may be a function or a Hapi handler config (e.g. directory)
+      assert.ok(typeof handler === "function" || typeof handler === "object", "handler must be function or object");
     });
   });
 
   test("GET / is registered", () => {
     const home = routes.find((r) => r.method === "GET" && r.path === "/");
     assert.exists(home);
-    assert.isFunction(home?.handler);
+    const handler = home?.handler ?? (home as any)?.config?.handler;
+    assert.isFunction(handler);
   });
 
   test("GET /cafes is registered", () => {
     const cafes = routes.find((r) => r.method === "GET" && r.path === "/cafes");
     assert.exists(cafes);
-    assert.isFunction(cafes?.handler);
+    const handler = cafes?.handler ?? (cafes as any)?.config?.handler;
+    assert.isFunction(handler);
   });
 
   test("GET /about is registered", () => {
     const about = routes.find((r) => r.method === "GET" && r.path === "/about");
     assert.exists(about);
-    assert.isFunction(about?.handler);
+    const handler = about?.handler ?? (about as any)?.config?.handler;
+    assert.isFunction(handler);
   });
 
   test("signup and login routes are registered", () => {

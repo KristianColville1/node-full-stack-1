@@ -1,7 +1,9 @@
 export const aboutController = {
   index: {
-    handler: async function (_request, h) {
-      return h.view("about-view", { title: "About", active: "about" });
+    auth: { mode: "try" },
+    handler: async function (request, h) {
+      const user = request.auth?.credentials ?? null;
+      return h.view("about-view", { title: "About", active: "about", user });
     },
   },
 };

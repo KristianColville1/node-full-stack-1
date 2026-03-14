@@ -5,7 +5,8 @@ export const cafeController = {
   index: {
     handler: async function (request, h) {
       const cafes = await db.cafeStore.getAllCafes();
-      return h.view("cafe-view", { title: "Cafes", cafes, active: "cafes" });
+      const user = request.auth.credentials;
+      return h.view("cafe-view", { title: "Cafes", cafes, active: "cafes", user });
     },
   },
 
@@ -15,12 +16,14 @@ export const cafeController = {
       options: { abortEarly: false },
       failAction: async function (request, h, error) {
         const cafes = await db.cafeStore.getAllCafes();
+        const user = request.auth?.credentials ?? null;
         return h
           .view("dashboard-view", {
             title: "Add cafe error",
             active: "dashboard",
             cafes,
             errors: error.details,
+            user,
           })
           .takeover()
           .code(400);

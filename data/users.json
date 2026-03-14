@@ -1,0 +1,47 @@
+{
+  "file": "/home/kristian/Documents/GitHub/node-full-stack-1/data/users.json",
+  "users": [
+    {
+      "email": "json@test.com",
+      "password": "secret",
+      "_id": "a82feea8-8863-4111-96b4-485a94650e93"
+    },
+    {
+      "email": "json@test.com",
+      "password": "secret",
+      "_id": "e4d2d2ed-8cc8-433a-80b5-8df8fa37d28a"
+    },
+    {
+      "email": "json@test.com",
+      "password": "secret",
+      "_id": "ba7c5b6f-d8bb-4760-993f-0ae18b93ec83"
+    },
+    {
+      "email": "json@test.com",
+      "password": "secret",
+      "_id": "fc0df857-3807-49e2-a4d2-96a3c6508a4e"
+    },
+    {
+      "email": "json@test.com",
+      "password": "secret",
+      "_id": "6e64aa67-672c-47a6-877c-02c24ff58554"
+    },
+    {
+      "email": "json@test.com",
+      "password": "secret",
+      "_id": "cf2e3cfa-a055-4a19-9d6e-b9e2ffa2b678"
+    },
+    {
+      "email": "json@test.com",
+      "password": "secret",
+      "_id": "fd79abf6-f52c-4b6f-8b82-af3ead7617fe"
+    },
+    {
+      "firstName": "kristian",
+      "lastName": "colville",
+      "email": "kristiancolville96@gmail.com",
+      "password": "8Y+fH=g!;?Br=8+",
+      "_id": "a8f24afb-1e34-48dd-bc12-ef38fab72656"
+    }
+  ]
+}

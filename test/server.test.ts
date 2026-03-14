@@ -17,4 +17,10 @@ suite("Server", () => {
   test("server has validator configured", () => {
     assert.isFunction(server.validator);
   });
+
+  test("auth default strategy is session", () => {
+    const defaultAuth = server.auth.settings.default;
+    assert.exists(defaultAuth, "auth default should be set");
+    assert.strictEqual(defaultAuth.strategies?.[0], "session");
+  });
 });

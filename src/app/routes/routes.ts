@@ -5,25 +5,20 @@ import { aboutController } from "@/app/controllers/about-controller.js";
 
 /**
  * Routes for the frontend of the application.
+ * Public routes use auth: false so session default does not redirect in a loop.
  */
 export const routes = [
-  { method: "GET", path: "/", handler: dashboardController.index.handler },
-  { method: "GET", path: "/dashboard", handler: dashboardController.index.handler },
-  { method: "GET", path: "/cafes", handler: cafeController.index.handler },
-  {
-    method: "POST",
-    path: "/cafes",
-    handler: cafeController.addCafe.handler,
-    options: { validate: cafeController.addCafe.validate },
-  },
-  { method: "POST", path: "/cafes/{id}/delete", handler: cafeController.deleteCafe.handler },
-  { method: "GET", path: "/about", handler: aboutController.index.handler },
-  /** GET /signup — Signup form. POST /signup — Create account. */
-  { method: "GET", path: "/signup", handler: accountsController.showSignup.handler },
-  { method: "POST", path: "/signup", handler: accountsController.signup.handler },
-  /** GET /login — Login form. POST /login — Authenticate → /dashboard. */
-  { method: "GET", path: "/login", handler: accountsController.showLogin.handler },
-  { method: "POST", path: "/login", handler: accountsController.login.handler },
-  /** GET /logout — Sign out, redirect /. */
-  { method: "GET", path: "/logout", handler: accountsController.logout.handler },
+  { method: "GET", path: "/", config: dashboardController.index },
+  { method: "GET", path: "/dashboard", config: dashboardController.index },
+  { method: "GET", path: "/cafes", config: cafeController.index },
+  { method: "POST", path: "/cafes", config: cafeController.addCafe },
+  { method: "POST", path: "/cafes/{id}/delete", config: cafeController.deleteCafe },
+  { method: "GET", path: "/about", config: aboutController.index },
+  { method: "GET", path: "/signup", config: accountsController.showSignup },
+  { method: "POST", path: "/signup", config: accountsController.signup },
+  { method: "GET", path: "/login", config: accountsController.showLogin },
+  { method: "POST", path: "/login", config: accountsController.login },
+  { method: "GET", path: "/logout", config: accountsController.logout },
+
+  { method: "GET", path: "/{param*}", handler: { directory: { path: "./public" } }, options: { auth: false } },
 ];

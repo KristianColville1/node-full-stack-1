@@ -2,11 +2,13 @@ import type { Server } from "@hapi/hapi";
 import Inert from "@hapi/inert";
 import Vision from "@hapi/vision";
 import Cookie from "@hapi/cookie";
+import jwt from "hapi-auth-jwt2";
 
 const PLUGINS = [
   { plugin: Inert, name: "@hapi/inert" },
   { plugin: Vision, name: "@hapi/vision" },
   { plugin: Cookie, name: "@hapi/cookie" },
+  { plugin: jwt, name: "hapi-auth-jwt2" },
 ];
 
 /**

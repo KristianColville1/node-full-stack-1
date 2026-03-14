@@ -12,8 +12,9 @@ suite("API routes", () => {
     apiRoutes.forEach((route) => {
       assert.property(route, "method");
       assert.property(route, "path");
-      assert.property(route, "handler");
-      assert.isFunction(route.handler);
+      const handler = route.handler ?? route.config?.handler;
+      assert.exists(handler, `route ${route.method} ${route.path} has no handler`);
+      assert.isFunction(handler);
     });
   });
 
@@ -37,12 +38,16 @@ suite("API routes", () => {
     assert.exists(byCategory);
   });
 
-  test("user API routes are registered", () => {
+  test("user API routes are registered with handlers", () => {
     const createUser = apiRoutes.find((r) => r.method === "POST" && r.path === "/api/users");
     const authenticate = apiRoutes.find(
       (r) => r.method === "POST" && r.path === "/api/users/authenticate",
     );
     assert.exists(createUser);
     assert.exists(authenticate);
+    const createHandler = createUser?.handler ?? createUser?.config?.handler;
+    const authHandler = authenticate?.handler ?? authenticate?.config?.handler;
+    assert.isFunction(createHandler, "POST /api/users has a handler");
+    assert.isFunction(authHandler, "POST /api/users/authenticate has a handler");
   });
 });

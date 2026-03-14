@@ -10,15 +10,21 @@
   </a>
   <div class="navbar-menu" id="navMenu">
     <div class="navbar-end">
+      {{#if user}}
       <a id="dashboard" class="navbar-item nav-link" href="/dashboard">Dashboard</a>
       <a id="cafes" class="navbar-item nav-link" href="/cafes">Cafes</a>
       <a id="about" class="navbar-item nav-link" href="/about">About</a>
       <a id="logout" class="navbar-item nav-link" href="/logout">Logout</a>
+      {{else}}
+      <a id="login" class="navbar-item nav-link" href="/login">Login</a>
+      <a id="signup" class="navbar-item nav-link" href="/signup">Sign up</a>
+      <a id="about" class="navbar-item nav-link" href="/about">About</a>
+      {{/if}}
     </div>
   </div>
   </div>
 </nav>
 
 <script>
-    document.getElementById("{{active}}").classList.add("is-active");
+    if (document.getElementById("{{active}}")) document.getElementById("{{active}}").classList.add("is-active");
 </script>

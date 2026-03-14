@@ -1,7 +1,5 @@
 import "dotenv/config";
 import Hapi from "@hapi/hapi";
-import Cookie from "@hapi/cookie";
-import jwt from "hapi-auth-jwt2";
 import Joi from "joi";
 import dotenv from "dotenv";
 import path from "path";
@@ -47,6 +45,25 @@ export const server = Hapi.server({
 await registerMiddleware(server);
 
 /**
+ * Auth strategies (must be registered before routes that use auth)
+ */
+server.auth.strategy("session", "cookie", {
+  cookie: {
+    name: process.env.COOKIE_NAME,
+    password: process.env.COOKIE_PASSWORD,
+    isSecure: false,
+  },
+  redirectTo: "/login",
+  validate: accountsController.validate,
+});
+server.auth.strategy("jwt", "jwt", {
+  key: process.env.COOKIE_PASSWORD,
+  validate: validateJWT,
+  verifyOptions: { algorithms: ["HS256"] },
+});
+server.auth.default("session");
+
+/**
  * Register the validator
  */
 server.validator(Joi);
@@ -58,11 +75,12 @@ server.route(frontendRoutes as any);
 server.route(apiRoutes as any);
 
 /**
- * Static assets (public folder). Served at /assets.
+ * Static assets public folder
  */
 server.route({
   method: "GET",
   path: "/assets/{param*}",
+  options: { auth: false },
   handler: {
     directory: {
       path: path.join(__dirname, "..", "public"),
@@ -91,35 +109,11 @@ server.views({
 });
 
 /**
- * Cookie and JWT authentication
- */
-
-server.auth.strategy("session", "cookie", {
-  cookie: {
-    name: process.env.COOKIE_NAME,
-    password: process.env.COOKIE_PASSWORD,
-    isSecure: false
-  },
-  redirectTo: "/",
-  validate: accountsController.validate
-});
-  server.auth.strategy("jwt", "jwt", {
-    key: process.env.cookie_password,
-    validate: validateJWT,
-    verifyOptions: { algorithms: ["HS256"] },
-  });
-  server.auth.default("session");
-
-
-
-/**
- * Start the server
+ * Start the server (registers auth plugins then strategies, then starts).
  */
 export async function start(): Promise<void> {
   initStores();
   console.log("Server running on %s", server.info.uri);
-  await server.register(Cookie);
-  await server.register(jwt);
   await server.start();
 }
 
@@ -128,4 +122,6 @@ process.on("unhandledRejection", (err) => {
   process.exit(1);
 });
 
-start();
+if (process.env.NODE_ENV !== "test") {
+  start();
+}
