@@ -1,5 +1,7 @@
 import "dotenv/config";
 import Hapi from "@hapi/hapi";
+import Cookie from "@hapi/cookie";
+import jwt from "hapi-auth-jwt2";
 import Joi from "joi";
 import dotenv from "dotenv";
 import path from "path";
@@ -9,6 +11,8 @@ import { registerMiddleware } from "@/core/middleware/register.js";
 import { initStores } from "@/core/data/db.js";
 import { routes as frontendRoutes } from "@/app/routes/routes.js";
 import { apiRoutes } from "@/app/api/api-routes.js";
+import { accountsController } from "./app/controllers/accounts-controller";
+import { validateJWT } from "./app/api/jwt-utils.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -87,11 +91,35 @@ server.views({
 });
 
 /**
+ * Cookie and JWT authentication
+ */
+
+server.auth.strategy("session", "cookie", {
+  cookie: {
+    name: process.env.COOKIE_NAME,
+    password: process.env.COOKIE_PASSWORD,
+    isSecure: false
+  },
+  redirectTo: "/",
+  validate: accountsController.validate
+});
+  server.auth.strategy("jwt", "jwt", {
+    key: process.env.cookie_password,
+    validate: validateJWT,
+    verifyOptions: { algorithms: ["HS256"] },
+  });
+  server.auth.default("session");
+
+
+
+/**
  * Start the server
  */
 export async function start(): Promise<void> {
   initStores();
   console.log("Server running on %s", server.info.uri);
+  await server.register(Cookie);
+  await server.register(jwt);
   await server.start();
 }
 
