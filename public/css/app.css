@@ -1,4 +1,22 @@
 /**
- * App styles. Bulma is loaded from CDN in layout.
- * Add overrides and custom styles here.
+ * Main app styles.
  */
+
+:root {
+  --ink-black: #001524;
+  --ink-black-light: #003052;
+  --ash-grey: #9db5b2;
+  --light-cyan: #daf0ee;
+  --walnut: #6d3d14;
+  --espresso: #551b14;
+
+  --body-background: rgb(246, 246, 246);
+}
+
+body {
+  background-color: var(--body-background);
+}
+
+.panel .panel-icon {
+  color: var(--walnut);
+}

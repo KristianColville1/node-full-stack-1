@@ -1,4 +1,5 @@
 import { db } from "@/core/data/db.js";
+import { validationError } from "@/app/api/logger.js";
 
 /** Cafe API: CRUD and getByCategory. JSON only. */
 export const cafeApi = {
@@ -21,17 +22,16 @@ export const cafeApi = {
   /** POST /api/cafes — Create cafe, return created (201). */
   create: {
     handler: async function (request, h) {
-      const { name, category, description, analytics, userId } = request.payload;
-      await db.cafeStore.addCafe({
-        name,
-        category,
-        description: description || "",
-        analytics,
-        userId,
-      });
-      const cafes = await db.cafeStore.getAllCafes();
-      const created = cafes.find((c) => c.name === name && c.category === category);
-      return h.response(created).code(201);
+      try {
+      const cafe = request.payload;
+        const created = await db.cafeStore.addCafe(cafe);
+        if (created) {
+          return h.response(created).code(201);
+        }
+        throw new Error("Failed to create cafe");
+      } catch (error) {
+        return validationError(request, h, error);
+      }
     },
   },
   /** PUT /api/cafes/{id} — Update cafe; 404 if missing. */

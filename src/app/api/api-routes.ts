@@ -7,15 +7,15 @@ import { userApi } from "@/app/api/user-api.js";
  */
 export const apiRoutes = [
   ...[
-    { method: "POST", path: "/api/users", handler: userApi.create.handler },
-    { method: "POST", path: "/api/users/authenticate", handler: userApi.authenticate.handler },
+    { method: "POST", path: "/api/users", config: userApi.create },
+    { method: "POST", path: "/api/users/authenticate", config: userApi.authenticate },
   ],
   ...[
-    { method: "GET", path: "/api/cafes", handler: cafeApi.list.handler },
-    { method: "GET", path: "/api/cafes/category/{category}", handler: cafeApi.getByCategory.handler },
-    { method: "GET", path: "/api/cafes/{id}", handler: cafeApi.getOne.handler },
-    { method: "POST", path: "/api/cafes", handler: cafeApi.create.handler },
-    { method: "PUT", path: "/api/cafes/{id}", handler: cafeApi.update.handler },
-    { method: "DELETE", path: "/api/cafes/{id}", handler: cafeApi.remove.handler },
+    { method: "GET", path: "/api/cafes", config: cafeApi.list },
+    { method: "GET", path: "/api/cafes/category/{category}", config: cafeApi.getByCategory },
+    { method: "GET", path: "/api/cafes/{id}", config: cafeApi.getOne },
+    { method: "POST", path: "/api/cafes", config: cafeApi.create },
+    { method: "PUT", path: "/api/cafes/{id}", config: cafeApi.update },
+    { method: "DELETE", path: "/api/cafes/{id}", config: cafeApi.remove },
   ],
 ];

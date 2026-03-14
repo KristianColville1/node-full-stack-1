@@ -29,6 +29,12 @@ suite("Routes", () => {
     assert.isFunction(cafes?.handler);
   });
 
+  test("GET /about is registered", () => {
+    const about = routes.find((r) => r.method === "GET" && r.path === "/about");
+    assert.exists(about);
+    assert.isFunction(about?.handler);
+  });
+
   test("signup and login routes are registered", () => {
     const getSignup = routes.find((r) => r.method === "GET" && r.path === "/signup");
     const postSignup = routes.find((r) => r.method === "POST" && r.path === "/signup");

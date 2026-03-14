@@ -81,6 +81,9 @@ server.views({
   partialsPath: "./app/views/partials",
   layout: true,
   isCached: false,
+  context: {
+    currentYear: new Date().getFullYear(),
+  },
 });
 
 /**

@@ -1,9 +1,12 @@
 {{#if cafes.length}}
-<ul class="list">
+<nav class="panel">
   {{#each cafes}}
-  <li class="list-item">{{name}} — {{category}}</li>
+  <div class="panel-block">
+    <span class="panel-icon"><i class="fas fa-mug-hot" aria-hidden="true"></i></span>
+    {{name}} — {{category}}
+  </div>
   {{/each}}
-</ul>
+</nav>
 {{else}}
 <p class="mb-4">No cafes yet.</p>
 {{/if}}

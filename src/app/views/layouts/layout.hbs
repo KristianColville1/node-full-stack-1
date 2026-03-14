@@ -11,15 +11,21 @@
     <title>{{title}}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="/assets/css/nav.css">
+    <link rel="stylesheet" href="/assets/css/footer.css">
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid" style="min-height: 100vh;">
         {{> menu }}
+
+        <main class="container">
         {{{content}}}
         {{> error }}
+        </main>
     </div>
+    {{> footer }}
     <script src="/assets/js/app.js"></script>
 </body>
 
