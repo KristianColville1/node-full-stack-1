@@ -23,7 +23,22 @@ suite("Routes", () => {
     assert.isFunction(home?.handler);
   });
 
-  test("All frontend routes are registered", () => {
+  test("GET /cafes is registered", () => {
+    const cafes = routes.find((r) => r.method === "GET" && r.path === "/cafes");
+    assert.exists(cafes);
+    assert.isFunction(cafes?.handler);
+  });
+
+  test("cafe add, update, delete routes are registered", () => {
+    const postCafes = routes.find((r) => r.method === "POST" && r.path === "/cafes");
+    const updateCafe = routes.find((r) => r.method === "POST" && r.path === "/cafes/{id}/update");
+    const deleteCafe = routes.find((r) => r.method === "POST" && r.path === "/cafes/{id}/delete");
+    assert.exists(postCafes);
+    assert.exists(updateCafe);
+    assert.exists(deleteCafe);
+  });
+
+  test("signup and login routes are registered", () => {
     const getSignup = routes.find((r) => r.method === "GET" && r.path === "/signup");
     const postSignup = routes.find((r) => r.method === "POST" && r.path === "/signup");
     const getLogin = routes.find((r) => r.method === "GET" && r.path === "/login");

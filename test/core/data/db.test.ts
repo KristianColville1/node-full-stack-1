@@ -7,15 +7,20 @@ suite("Core - db", () => {
     assert.isObject(db);
   });
 
-  test("db has userStore", () => {
+  test("db has userStore and cafeStore", () => {
     assert.property(db, "userStore");
+    assert.property(db, "cafeStore");
   });
 
-  test("initStores() assigns memory store by default", () => {
+  test("initStores() assigns memory stores by default", () => {
     initStores("memory");
     assert.exists(db.userStore);
+    assert.exists(db.cafeStore);
     assert.isFunction(db.userStore.addUser);
     assert.isFunction(db.userStore.getUserByEmail);
+    assert.isFunction(db.cafeStore.addCafe);
+    assert.isFunction(db.cafeStore.getAllCafes);
+    assert.isFunction(db.cafeStore.getByCategory);
   });
 
   test("userStore.addUser and getUserByEmail work", async () => {
@@ -29,5 +34,20 @@ suite("Core - db", () => {
 
   test("initStores('json') throws (not yet implemented)", () => {
     assert.throws(() => initStores("json"), "not yet implemented");
+  });
+
+  test("cafeStore CRUD and getByCategory work", async () => {
+    initStores("memory");
+    await db.cafeStore.addCafe({
+      name: "Test Cafe",
+      category: "Specialty",
+      description: "A test",
+    });
+    const all = await db.cafeStore.getAllCafes();
+    assert.lengthOf(all, 1);
+    assert.strictEqual(all[0].name, "Test Cafe");
+    assert.strictEqual(all[0].category, "Specialty");
+    const byCat = await db.cafeStore.getByCategory("Specialty");
+    assert.lengthOf(byCat, 1);
   });
 });

@@ -8,6 +8,7 @@ import Handlebars from "handlebars";
 import { registerMiddleware } from "@/core/middleware/register.js";
 import { initStores } from "@/core/data/db.js";
 import { routes as frontendRoutes } from "@/app/routes/routes.js";
+import { apiRoutes } from "@/app/api/api-routes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -50,6 +51,7 @@ server.validator(Joi);
  * Register the routes
  */
 server.route(frontendRoutes as any);
+server.route(apiRoutes as any);
 
 /**
  * Register the views
