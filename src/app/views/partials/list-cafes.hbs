@@ -1,0 +1,9 @@
+{{#if cafes.length}}
+<ul class="list">
+  {{#each cafes}}
+  <li class="list-item">{{name}} — {{category}}</li>
+  {{/each}}
+</ul>
+{{else}}
+<p class="mb-4">No cafes yet.</p>
+{{/if}}
