@@ -15,4 +15,8 @@ export class MemoryUserStore implements IUserStore {
   async getUserByEmail(email) {
     return this.users.get(email.toLowerCase());
   }
+
+  async getUserById(id) {
+    return this.users.get(id);
+  }
 }

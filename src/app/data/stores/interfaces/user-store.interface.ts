@@ -4,4 +4,5 @@
 export interface IUserStore {
   addUser(user: any): any;
   getUserByEmail(email: string): any;
+  getUserById(id: string): any;
 }
