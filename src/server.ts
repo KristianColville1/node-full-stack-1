@@ -54,6 +54,21 @@ server.route(frontendRoutes as any);
 server.route(apiRoutes as any);
 
 /**
+ * Static assets (public folder). Served at /assets.
+ */
+server.route({
+  method: "GET",
+  path: "/assets/{param*}",
+  handler: {
+    directory: {
+      path: path.join(__dirname, "..", "public"),
+      redirectToSlash: true,
+      index: false,
+    },
+  },
+});
+
+/**
  * Register the views
  */
 server.views({

@@ -9,7 +9,6 @@ export const routes = [
   { method: "GET", path: "/", handler: dashboardController.index.handler },
   { method: "GET", path: "/dashboard", handler: dashboardController.index.handler },
   { method: "GET", path: "/cafes", handler: cafeController.index.handler },
-  { method: "POST", path: "/cafes", handler: cafeController.addCafe.handler },
   /** GET /signup — Signup form. POST /signup — Create account. */
   { method: "GET", path: "/signup", handler: accountsController.showSignup.handler },
   { method: "POST", path: "/signup", handler: accountsController.signup.handler },

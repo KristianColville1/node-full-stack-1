@@ -9,8 +9,10 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
-                    <a id="cafes" class="button" href="/cafes"> Cafes </a> <a id="about" class="button"
-                        href="/about"> About </a> <a id="logout" class="button" href="/logout"> Logout </a>
+                    <a id="dashboard" class="button" href="/dashboard"> Dashboard </a>
+                    <a id="cafes" class="button" href="/cafes"> Cafes </a>
+                    <a id="about" class="button" href="/about"> About </a>
+                    <a id="logout" class="button" href="/logout"> Logout </a>
                 </div>
             </div>
         </div>
@@ -18,7 +20,7 @@
 </nav>
 
 <script>
-    document.getElementById("{{active}}").classList.add("is-primary");
+    {{#if active}}document.getElementById("{{active}}").classList.add("is-primary");{{/if}}
     document.addEventListener("DOMContentLoaded", () => {
         // Get all "navbar-burger" elements
         const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll(".navbar-burger"), 0);

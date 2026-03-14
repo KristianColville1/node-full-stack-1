@@ -1,12 +1,15 @@
 import { db } from "@/core/data/db.js";
 
+/** Cafe API: CRUD and getByCategory. JSON only. */
 export const cafeApi = {
+  /** GET /api/cafes — List all cafes. */
   list: {
     handler: async function (request, h) {
       const cafes = await db.cafeStore.getAllCafes();
       return h.response(cafes).code(200);
     },
   },
+  /** GET /api/cafes/{id} — One cafe; 404 if missing. */
   getOne: {
     handler: async function (request, h) {
       const { id } = request.params;
@@ -15,32 +18,41 @@ export const cafeApi = {
       return h.response(cafe).code(200);
     },
   },
+  /** POST /api/cafes — Create cafe, return created (201). */
   create: {
     handler: async function (request, h) {
-      const payload = request.payload;
+      const { name, category, description, analytics, userId } = request.payload;
       await db.cafeStore.addCafe({
-        name: payload.name,
-        category: payload.category,
-        description: payload.description || "",
-        analytics: payload.analytics,
-        userId: payload.userId,
+        name,
+        category,
+        description: description || "",
+        analytics,
+        userId,
       });
       const cafes = await db.cafeStore.getAllCafes();
-      const created = cafes.find((c) => c.name === payload.name && c.category === payload.category);
+      const created = cafes.find((c) => c.name === name && c.category === category);
       return h.response(created).code(201);
     },
   },
+  /** PUT /api/cafes/{id} — Update cafe; 404 if missing. */
   update: {
     handler: async function (request, h) {
       const { id } = request.params;
-      const payload = request.payload;
+      const { name, category, description, analytics, userId } = request.payload;
       const existing = await db.cafeStore.getCafeById(id);
       if (!existing) return h.response({ error: "Not found" }).code(404);
-      await db.cafeStore.updateCafe(id, payload);
+      await db.cafeStore.updateCafe(id, {
+        name,
+        category,
+        description: description || "",
+        analytics,
+        userId,
+      });
       const updated = await db.cafeStore.getCafeById(id);
       return h.response(updated).code(200);
     },
   },
+  /** DELETE /api/cafes/{id} — Remove cafe; 404 if missing, 204 on success. */
   remove: {
     handler: async function (request, h) {
       const { id } = request.params;
@@ -50,6 +62,7 @@ export const cafeApi = {
       return h.response().code(204);
     },
   },
+  /** GET /api/cafes/category/{category} — Cafes in category. */
   getByCategory: {
     handler: async function (request, h) {
       const { category } = request.params;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -10,14 +10,17 @@
     <meta name="robots" content="index, follow">
     <title>{{title}}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
 </head>
 
 <body>
     <div class="container">
+        {{> menu }}
         {{{content}}}
         {{> error }}
     </div>
+    <script src="/assets/js/app.js"></script>
 </body>
 
 </html>
